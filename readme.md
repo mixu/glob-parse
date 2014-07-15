@@ -17,11 +17,11 @@ Returns a parsed representation of a glob string; does not require Minimatch.
 ### Basic parsing
 
 ````js
-  var parse = require('glob-parse');
-  console.log(parse('js/*.js'));
-  // [ 'js/', '*', '.js' ]
-  console.log(parse('js/**/test/*.js'));
-  // [ 'js/', '**', '/test/', '*', '.js' ]
+var parse = require('glob-parse');
+console.log(parse('js/*.js'));
+// [ 'js/', '*', '.js' ]
+console.log(parse('js/**/test/*.js'));
+// [ 'js/', '**', '/test/', '*', '.js' ]
 ````
 
 ### .basename()
