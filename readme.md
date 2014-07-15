@@ -1,16 +1,16 @@
 # glob-parse
 
-Returns a parsed representation of a glob string; does not require Minimatch.
+Returns a parsed representation of a glob string; does not require [Minimatch](https://github.com/isaacs/minimatch).
 
 ## Features
 
-- Works on any string, does not require Minimatch or any other separate glob library.
+- Works on any string, does not require [Minimatch](https://github.com/isaacs/minimatch) or any other separate glob library.
 - Does not perform glob matching: it just parses a glob expression into segments and produces relevant metadata about those segments.
 - Pure parsing/tokenization is useful for working with glob expressions. For example:
 
 [wildglob](https://github.com/mixu/wildglob) uses `glob-parse` to parse the different segments of the input glob and then combines the string segments to determine where to start glob matching.
 
-`glob2base` provides extracts a base path from a glob. It uses Minimatch to do this, but `glob-parse` (the `.basename()` function) can also be used to extract the base path from a glob.
+[glob2base](https://github.com/wearefractal/glob2base) extracts a base path from a glob. It uses Minimatch to do this, but `glob-parse` (the `.basename()` function) can also be used to extract the base path from a glob.
 
 ## API and examples
 

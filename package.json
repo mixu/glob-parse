@@ -1,0 +1,25 @@
+{
+  "name": "glob-parse",
+  "version": "0.0.1",
+  "description": "Returns a parsed representation of a glob string; does not require Minimatch.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mixu/glob-parse.git"
+  },
+  "keywords": [
+    "glob",
+    "parse",
+    "parser",
+    "tokenizer"
+  ],
+  "author": "Mikito Takada <mikito.takada@gmail.com> (http://mixu.net/)",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/mixu/glob-parse/issues"
+  },
+  "homepage": "https://github.com/mixu/glob-parse"
+}
