@@ -1,12 +1,38 @@
 # glob-parse
 
-Returns a parsed representation of a glob string.
+Returns a parsed representation of a glob string; does not require Minimatch.
 
-## Use cases
+## Features
 
 - Works on any string, does not require Minimatch or any other separate glob library.
 - Does not perform glob matching: it just parses a glob expression into segments and produces relevant metadata about those segments.
-- The primary use case is to parse a glob into segments for use in a glob-based file resolver like wildglob. To recursively resolve against a set of file paths (which grow in length as the traversal progresses) you need to split the glob expression into logical pieces.
-- Another use case is to extract the base path from a glob.
-  - either the "minimum base path" which is the portion of the path prior to any special characters, e.g. `{./*/*,/tmp/glob-test/*}` => `''`. This is what gulp's `glob2base` does but it depends on Minimatch.
-  - or the expanded base path, e.g. `{./*/*,/tmp/glob-test/*}` => `[ './', '/tmp/glob-test/' ]`
+- Pure parsing/tokenization is useful for working with glob expressions. For example:
+
+[wildglob](https://github.com/mixu/wildglob) uses `glob-parse` to parse the different segments of the input glob and then combines the string segments to determine where to start glob matching.
+
+`glob2base` provides extracts a base path from a glob. It uses Minimatch to do this, but `glob-parse` (the `.basename()` function) can also be used to extract the base path from a glob.
+
+## API and examples
+
+    var parse = require('glob-parse');
+
+    // basic parsing
+
+    console.log(parse('js/*.js'));
+    // [ 'js/', '*', '.js' ]
+    console.log(parse('js/**/test/*.js'));
+    // [ 'js/', '**', '/test/', '*', '.js' ]
+
+    // pass { full: true } to return the token type annotations
+
+    console.log(parse('js/t[a-z]st/*.js', { full: true }));
+    // { parts: [ 'js/t', '[a-z]', 'st/', '*', '.js' ],
+    //   types: [ 'str', 'set', 'str', '*', 'str' ] }
+
+    console.log(parse('js/{src,test}/*.js', { full: true }));
+    // { parts: [ 'js/', '{src,test}', '/', '*', '.js' ],
+    //   types: [ 'str', 'brace', 'str', '*', 'str' ] }
+
+    console.log(parse('test/+(a|b|c)/a{/,bc*}/**', { full: true }));
+    // { parts: [ 'test/', '+(a|b|c)', '/a', '{/,bc*}', '/', '**' ],
+    //   types: [ 'str', 'ext', 'str', 'brace', 'str', '**' ] }
