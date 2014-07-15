@@ -14,25 +14,44 @@ Returns a parsed representation of a glob string; does not require Minimatch.
 
 ## API and examples
 
-    var parse = require('glob-parse');
+### Basic parsing
 
-    // basic parsing
+````js
+  var parse = require('glob-parse');
+  console.log(parse('js/*.js'));
+  // [ 'js/', '*', '.js' ]
+  console.log(parse('js/**/test/*.js'));
+  // [ 'js/', '**', '/test/', '*', '.js' ]
+````
 
-    console.log(parse('js/*.js'));
-    // [ 'js/', '*', '.js' ]
-    console.log(parse('js/**/test/*.js'));
-    // [ 'js/', '**', '/test/', '*', '.js' ]
+### .basename()
 
-    // pass { full: true } to return the token type annotations
+`basename()` works like `glob2base`:
 
-    console.log(parse('js/t[a-z]st/*.js', { full: true }));
-    // { parts: [ 'js/t', '[a-z]', 'st/', '*', '.js' ],
-    //   types: [ 'str', 'set', 'str', '*', 'str' ] }
+````js
+console.log(parse.basename('js/test{0..9}/*.js'));
+// js/
+console.log(parse.basename('js/t+(wo|est)/*.js'));
+// js/
+console.log(parse.basename('lib/{components,pages}/**/{test,another}/*.txt'));
+// lib/
+````
 
-    console.log(parse('js/{src,test}/*.js', { full: true }));
-    // { parts: [ 'js/', '{src,test}', '/', '*', '.js' ],
-    //   types: [ 'str', 'brace', 'str', '*', 'str' ] }
 
-    console.log(parse('test/+(a|b|c)/a{/,bc*}/**', { full: true }));
-    // { parts: [ 'test/', '+(a|b|c)', '/a', '{/,bc*}', '/', '**' ],
-    //   types: [ 'str', 'ext', 'str', 'brace', 'str', '**' ] }
+### Full type annotations
+
+Pass { full: true } to return the token type annotations.
+
+````js
+console.log(parse('js/t[a-z]st/*.js', { full: true }));
+// { parts: [ 'js/t', '[a-z]', 'st/', '*', '.js' ],
+//   types: [ 'str', 'set', 'str', '*', 'str' ] }
+
+console.log(parse('js/{src,test}/*.js', { full: true }));
+// { parts: [ 'js/', '{src,test}', '/', '*', '.js' ],
+//   types: [ 'str', 'brace', 'str', '*', 'str' ] }
+
+console.log(parse('test/+(a|b|c)/a{/,bc*}/**', { full: true }));
+// { parts: [ 'test/', '+(a|b|c)', '/a', '{/,bc*}', '/', '**' ],
+//   types: [ 'str', 'ext', 'str', 'brace', 'str', '**' ] }
+````
